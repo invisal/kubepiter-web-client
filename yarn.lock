@@ -306,6 +306,16 @@
   resolved "https://registry.yarnpkg.com/@types/carbon__icons-react/-/carbon__icons-react-11.5.0.tgz#46fddb59a7f0f8a1fe06783bfc45a64231a065af"
   integrity sha512-zfCL7SZVVO0ux6cMmtMNn3YdjmujKg9zL2lPrYaVHQxowfwAgoTuqT6krPshul84B7D7t8ysnSo3R8neSOg4cA==
 
+"@types/carbon__layout@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@types/carbon__layout/-/carbon__layout-0.0.1.tgz#bc315ef43ee15a2b1bbe911fe25ffa2d1e254f22"
+  integrity sha512-mebNbHuGs0E1tWYRUGru3V7wZVCVnwWvyenxHSF5E7VQBfM3YCGK3vIsQNdfIy2zttd3B3NU91tA6W1HhAbHQA==
+
+"@types/carbon__type@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@types/carbon__type/-/carbon__type-0.0.1.tgz#eac223d5bd8426139135f2a34eceb8b5b7424f97"
+  integrity sha512-k4P4Vh7C3YJcRIu7nwu8bHTsmrTG9GLtqkLbofJzKezZ8idkDFpvFL04ue1oxbR0fdUJcjAjiPM3lyz0Ex2ghQ==
+
 "@types/json5@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"

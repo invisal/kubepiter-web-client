@@ -4,6 +4,9 @@
 @use "@carbon/react/scss/layer";
 @use "@carbon/react/scss/themes";
 @use "@carbon/react/scss/theme";
+@use "@carbon/react/scss/components/link";
+@use "@carbon/react/scss/components/accordion";
+@use "@carbon/react/scss/components/combo-box";
 @use "@carbon/react/scss/components/modal";
 @use "@carbon/react/scss/components/notification";
 @use "@carbon/react/scss/components/loading";
@@ -11,6 +14,7 @@
 @use "@carbon/react/scss/components/tooltip";
 @use "@carbon/react/scss/components/inline-loading";
 @use "@carbon/react/scss/components/button";
+@use "@carbon/react/scss/components/data-table";
 @use "@carbon/react/scss/components/checkbox";
 @use "@carbon/react/scss/components/text-input";
 @use "@carbon/react/scss/components/ui-shell";

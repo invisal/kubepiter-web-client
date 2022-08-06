@@ -10,11 +10,6 @@ import {
   Grid,
   Column,
   SideNavLink,
-  HeaderGlobalBar,
-  HeaderGlobalAction,
-  HeaderPanel,
-  Switcher,
-  SwitcherItem,
 } from "@carbon/react";
 import * as Icons from "@carbon/icons-react";
 import { PropsWithChildren } from "react";
@@ -66,13 +61,13 @@ export default function MasterLayout(props: PropsWithChildren<unknown>) {
                     </SideNavLink>
                   </Link>
 
-                  <Link href="/apps" passHref>
+                  <Link href="/apps/list" passHref>
                     <SideNavLink
                       renderIcon={Icons.Run}
-                      href="/apps"
+                      href="/apps/list"
                       large
                       className={
-                        router.pathname === "/apps"
+                        router.pathname.indexOf("/apps") === 0
                           ? "cds--side-nav__link--current"
                           : ""
                       }
