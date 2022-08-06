@@ -19,6 +19,7 @@ export type GqlApp = {
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   ingress?: Maybe<Array<Maybe<GqlAppIngress>>>;
+  lastBuildJob?: Maybe<GqlBuildJob>;
   name?: Maybe<Scalars['String']>;
   namespace?: Maybe<Scalars['String']>;
   port?: Maybe<Scalars['Int']>;
@@ -62,6 +63,15 @@ export type GqlAppInput = {
   version?: InputMaybe<Scalars['Int']>;
 };
 
+export type GqlBuildJob = {
+  __typename?: 'BuildJob';
+  appId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  logs?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
 export type GqlCluster = {
   __typename?: 'Cluster';
   id?: Maybe<Scalars['String']>;
@@ -71,6 +81,12 @@ export type GqlCluster = {
 export type GqlDeployResponse = {
   __typename?: 'DeployResponse';
   message?: Maybe<Scalars['String']>;
+  yaml?: Maybe<Scalars['String']>;
+};
+
+export type GqlKubeNode = {
+  __typename?: 'KubeNode';
+  name?: Maybe<Scalars['String']>;
 };
 
 export type GqlLoginResponse = {
@@ -95,6 +111,7 @@ export type GqlMutationCreateAppArgs = {
 
 export type GqlMutationDeployAppArgs = {
   id: Scalars['ID'];
+  remote?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -116,12 +133,21 @@ export type GqlQuery = {
   apps?: Maybe<Array<Maybe<GqlApp>>>;
   clusters?: Maybe<Array<Maybe<GqlCluster>>>;
   me?: Maybe<GqlUser>;
+  nodes?: Maybe<Array<Maybe<GqlKubeNode>>>;
+  registries?: Maybe<Array<Maybe<GqlRegistry>>>;
   version?: Maybe<Scalars['String']>;
 };
 
 
 export type GqlQueryAppArgs = {
   id: Scalars['ID'];
+};
+
+export type GqlRegistry = {
+  __typename?: 'Registry';
+  auth?: Maybe<Scalars['String']>;
+  managed?: Maybe<Scalars['Boolean']>;
+  name: Scalars['ID'];
 };
 
 export type GqlUser = {
