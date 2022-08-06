@@ -10,17 +10,27 @@ import {
   Grid,
   Column,
   SideNavLink,
+  HeaderGlobalBar,
+  HeaderGlobalAction,
+  HeaderPanel,
+  Switcher,
+  SwitcherItem,
 } from "@carbon/react";
 import * as Icons from "@carbon/icons-react";
 import { PropsWithChildren } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import LoginLayout from "./LoginLayout";
+import { useUser } from "../providers/UserProvider";
+import TopActionButtons from "../components/TopActionButtons";
 
 export default function MasterLayout(props: PropsWithChildren<unknown>) {
   const router = useRouter();
+  const { user } = useUser();
 
-  return <LoginLayout />;
+  if (!user) {
+    return <LoginLayout />;
+  }
 
   return (
     <div>
@@ -36,6 +46,8 @@ export default function MasterLayout(props: PropsWithChildren<unknown>) {
                 aria-label=""
               />
               <HeaderName prefix="">Kubepiter</HeaderName>
+
+              <TopActionButtons />
 
               <SideNav expanded={isSideNavExpanded} aria-label="">
                 <SideNavItems>
@@ -121,7 +133,7 @@ export default function MasterLayout(props: PropsWithChildren<unknown>) {
                 <Column
                   sm={{ offset: 0, span: 4 }}
                   md={{ offset: 0, span: 8 }}
-                  lg={{ offset: 3, span: 13 }}
+                  lg={{ offset: 4, span: 12 }}
                   xlg={{ offset: 3, span: 13 }}
                 >
                   {props.children}

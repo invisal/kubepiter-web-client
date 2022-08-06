@@ -9,13 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@carbon/react": "^1.8.0",
+    "graphql": "^16.5.0",
     "next": "12.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@types/carbon-components-react": "^7.55.2",
+    "@types/carbon__icons-react": "^11.5.0",
     "@types/node": "18.6.4",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",

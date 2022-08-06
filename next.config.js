@@ -7,6 +7,9 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.resolve(__dirname, "node_modules")],
   },
+  publicRuntimeConfig: {
+    endpoint: process.env.ENDPOINT,
+  },
 };
 
 module.exports = nextConfig;
