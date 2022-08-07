@@ -7,7 +7,7 @@ function createApolloClient(token: string | null) {
   const { publicRuntimeConfig } = getConfig();
 
   const client = new ApolloClient({
-    uri: `${publicRuntimeConfig.endpoint}/graphql`,
+    uri: `${publicRuntimeConfig?.endpoint}/graphql`,
     cache: new InMemoryCache(),
     headers: token
       ? {
