@@ -17,4 +17,7 @@ declare module "@carbon/react" {
     selectedIndex?: number;
   }
   export const Tabs: React.FC<PropsWithChildren<TabsProps>>;
+
+  interface FlexGridProps {}
+  export const FlexGrid: React.FC<FlexGridProps>;
 }

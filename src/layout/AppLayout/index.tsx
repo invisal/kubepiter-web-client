@@ -22,9 +22,8 @@ export default function AppLayout(
   const pathSplit = router.pathname.split("/");
   const pathLastToken = pathSplit[pathSplit.length - 1];
 
-  if (pathLastToken === "builds") {
-    selectIndex = 1;
-  }
+  if (pathLastToken === "ingress") selectIndex = 1;
+  if (pathLastToken === "builds") selectIndex = 2;
 
   return (
     <div>
@@ -39,6 +38,11 @@ export default function AppLayout(
             <TabList aria-label="App" activation="manual" contained>
               <Tab onClick={() => router.push(`/apps/edit/${props.id}`)}>
                 Application
+              </Tab>
+              <Tab
+                onClick={() => router.push(`/apps/edit/${props.id}/ingress`)}
+              >
+                Ingress
               </Tab>
               <Tab onClick={() => router.push(`/apps/edit/${props.id}/builds`)}>
                 Build Log

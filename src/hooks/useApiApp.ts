@@ -9,6 +9,10 @@ const QUERY_APP = gql`
       replicas
       name
       image
+      ingress {
+        host
+        path
+      }
       env {
         name
         value
