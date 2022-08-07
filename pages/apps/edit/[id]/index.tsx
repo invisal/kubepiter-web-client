@@ -1,81 +1,36 @@
-import { TextInput, Button, Grid, Column, ComboBox } from "@carbon/react";
+import { TextInput, Button, Grid, Column, Loading } from "@carbon/react";
 import { useRouter } from "next/router";
-import {
-  GqlApp,
-  GqlAppEnvironmentVariable,
-} from "../../../../src/generated/graphql";
+import { GqlApp } from "../../../../src/generated/graphql";
 import MasterLayout from "../../../../src/layout/MasterLayout";
 import AppLayout from "../../../../src/layout/AppLayout";
 import LinkGitRepoEditor from "../../../../src/components/LinkGitRepoEditor";
-
-function EnvironmentVariableEditor({
-  envs,
-}: {
-  envs: GqlAppEnvironmentVariable[];
-}) {
-  return (
-    <div style={{ marginTop: "2rem" }}>
-      <h4 style={{ marginBottom: "1rem" }}>Environment Variables</h4>
-
-      <Grid>
-        <Column
-          sm={{ span: 4 }}
-          md={{ span: 3 }}
-          lg={{ span: 5 }}
-          style={{ marginTop: "0.5rem" }}
-        >
-          <strong>Name</strong>
-        </Column>
-        <Column
-          sm={{ span: 4 }}
-          md={{ offset: 3, span: 5 }}
-          lg={{ offset: 5, span: 11 }}
-          style={{ marginTop: "0.5rem" }}
-        >
-          <strong>Value</strong>
-        </Column>
-        {envs.map((env) => {
-          return (
-            <>
-              <Column
-                sm={{ span: 4 }}
-                md={{ span: 3 }}
-                lg={{ span: 5 }}
-                style={{ marginTop: "0.5rem" }}
-              >
-                <TextInput
-                  id="name"
-                  labelText=""
-                  value={env.name || ""}
-                  autoCorrect="off"
-                  spellCheck={false}
-                />
-              </Column>
-              <Column
-                sm={{ span: 4 }}
-                md={{ offset: 3, span: 5 }}
-                lg={{ offset: 5, span: 11 }}
-                style={{ marginTop: "0.5rem" }}
-              >
-                <TextInput
-                  id="name"
-                  labelText=""
-                  value={env.value || ""}
-                  autoCorrect="off"
-                  spellCheck={false}
-                />
-              </Column>
-            </>
-          );
-        })}
-      </Grid>
-    </div>
-  );
-}
+import RegistryListCombo from "../../../../src/components/RegistryListCombo";
+import { useState } from "react";
+import useApiUpdateApp from "../../../../src/hooks/useApiUpdateApp";
 
 function AppBody({ data }: { data: GqlApp }) {
+  const [update, { loading }] = useApiUpdateApp();
+  const [imagePullSecret, setImagePullScret] = useState(
+    data.imagePullSecret || ""
+  );
+  const [image, setImage] = useState(data.image || "");
+
+  const onSaveClicked = () => {
+    update({
+      variables: {
+        id: data.id || "",
+        value: {
+          image,
+          imagePullSecret,
+        },
+      },
+    });
+  };
+
   return (
     <div>
+      {loading && <Loading />}
+
       <TextInput
         id="name"
         labelText="Name"
@@ -95,28 +50,22 @@ function AppBody({ data }: { data: GqlApp }) {
             id="image_repository"
             labelText="Image Repository"
             spellCheck={false}
-            value={data.image || ""}
+            value={image}
+            onChange={(e) => setImage(e.currentTarget.value)}
           />
         </Column>
         <Column lg={{ offset: 10, span: 6 }} md={{ offset: 5, span: 3 }}>
-          <ComboBox
-            spellCheck={false}
-            id="registry_secret"
-            items={["groupin-reg"]}
-            placeholder=""
-            titleText="Container Registry"
+          <RegistryListCombo
+            value={imagePullSecret}
+            onChange={(e) => setImagePullScret(e || "")}
           />
         </Column>
       </Grid>
 
       <LinkGitRepoEditor id={data.id || ""} git={data.git} />
 
-      <EnvironmentVariableEditor
-        envs={(data.env || []).filter(Boolean) as GqlAppEnvironmentVariable[]}
-      />
-
       <div style={{ marginTop: "2rem" }}>
-        <Button>Save</Button>
+        <Button onClick={onSaveClicked}>Save</Button>
       </div>
     </div>
   );

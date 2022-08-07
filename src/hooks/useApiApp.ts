@@ -9,6 +9,7 @@ const QUERY_APP = gql`
       replicas
       name
       image
+      imagePullSecret
       ingress {
         host
         path

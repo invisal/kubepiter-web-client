@@ -1,4 +1,3 @@
-import { ApolloClient } from "@apollo/client";
 import type { AppProps } from "next/app";
 import { ApolloClientProvider } from "../src/providers/ApolloClientProvider";
 import { SessionTokenProvider } from "../src/providers/SessionTokenProvider";

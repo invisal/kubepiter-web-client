@@ -1,5 +1,6 @@
 {
   "name": "kubepiter-web-client",
+  "description": "Kubepiter Official Web Client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
