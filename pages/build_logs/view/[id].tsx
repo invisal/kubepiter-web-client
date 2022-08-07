@@ -24,7 +24,18 @@ function BuildLogBody({ data }: { data: GqlBuildJob }) {
           <br />
           {data.id}
           <br />
-          <InlineLoading status="error" description="Running" />
+          {data.status === "RUNNING" && (
+            <InlineLoading status="active" description="Running" />
+          )}
+          {data.status === "PENDING" && (
+            <InlineLoading status="inactive" description="Pending" />
+          )}
+          {data.status === "FAILED" && (
+            <InlineLoading status="error" description="Failed" />
+          )}
+          {data.status === "SUCCESS" && (
+            <InlineLoading status="finished" description="Success" />
+          )}
         </div>
       </Card>
 

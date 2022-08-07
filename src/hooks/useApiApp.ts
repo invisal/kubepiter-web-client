@@ -10,6 +10,8 @@ const QUERY_APP = gql`
       name
       image
       imagePullSecret
+      folderName
+      nodeGroup
       ingress {
         host
         path

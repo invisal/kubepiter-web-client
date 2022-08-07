@@ -8,7 +8,7 @@ const Home: NextPage = () => {
 
   return (
     <MasterLayout>
-      <h1>This is content</h1>
+      <span>Coming Soon</span>
     </MasterLayout>
   );
 };

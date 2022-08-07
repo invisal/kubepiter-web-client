@@ -8,6 +8,7 @@ const QUERY_APP_LIST = gql`
       version
       replicas
       name
+      folderName
       lastBuildJob {
         id
         status

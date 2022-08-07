@@ -181,7 +181,7 @@ export default function LinkGitRepoEditor({
   };
 
   return (
-    <div style={{ marginTop: "2rem", marginLeft: "2rem" }}>
+    <div style={{ marginTop: "2rem" }}>
       <div style={{ marginBottom: "0.5rem" }}>
         <strong>Source Code</strong>
       </div>
