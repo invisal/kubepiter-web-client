@@ -1,12 +1,4 @@
-import {
-  TextInput,
-  FormLabel,
-  Button,
-  Grid,
-  Column,
-  ComboBox,
-} from "@carbon/react";
-import * as Icons from "@carbon/icons-react";
+import { TextInput, Button, Grid, Column, ComboBox } from "@carbon/react";
 import { useRouter } from "next/router";
 import {
   GqlApp,
@@ -14,6 +6,7 @@ import {
 } from "../../../../src/generated/graphql";
 import MasterLayout from "../../../../src/layout/MasterLayout";
 import AppLayout from "../../../../src/layout/AppLayout";
+import LinkGitRepoEditor from "../../../../src/components/LinkGitRepoEditor";
 
 function EnvironmentVariableEditor({
   envs,
@@ -116,23 +109,7 @@ function AppBody({ data }: { data: GqlApp }) {
         </Column>
       </Grid>
 
-      <div style={{ marginTop: "2rem" }}>
-        <div style={{ marginBottom: "0.5rem" }}>
-          <strong>Source Code</strong>
-        </div>
-
-        <p style={{ marginBottom: "0.5rem" }}>
-          <FormLabel>
-            Provide us with your Git repository. We will build the image from
-            your source code and push to above image repository
-          </FormLabel>
-        </p>
-
-        <Button kind="tertiary" renderIcon={Icons.Edit}>
-          <Icons.LogoGithub size={24} style={{ marginRight: "1rem" }} />
-          <strong>git://invisal.com</strong>
-        </Button>
-      </div>
+      <LinkGitRepoEditor id={data.id || ""} git={data.git} />
 
       <EnvironmentVariableEditor
         envs={(data.env || []).filter(Boolean) as GqlAppEnvironmentVariable[]}

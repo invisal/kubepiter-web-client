@@ -44,6 +44,7 @@ export type GqlAppEnvironmentVariableInput = {
 export type GqlAppGit = {
   __typename?: 'AppGit';
   branch?: Maybe<Scalars['String']>;
+  hasAuth?: Maybe<Scalars['Boolean']>;
   url?: Maybe<Scalars['String']>;
 };
 
@@ -166,6 +167,7 @@ export type GqlQueryBuildLogArgs = {
 
 
 export type GqlQueryBuildLogsArgs = {
+  appId?: InputMaybe<Scalars['String']>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 };

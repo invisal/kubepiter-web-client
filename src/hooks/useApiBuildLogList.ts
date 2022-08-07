@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { GqlQuery } from "../generated/graphql";
 
 const QUERY_BUILD_LOGS_LIST = gql`
-  query buildLogs($offset: Int, $limit: Int) {
-    buildLogs(offset: $offset, limit: $limit) {
+  query buildLogs($appId: String, $offset: Int, $limit: Int) {
+    buildLogs(appId: $appId, offset: $offset, limit: $limit) {
       id
       status
       createdAt
@@ -20,6 +20,7 @@ export default function useApiBuildLogList(
   variables: {
     offset?: number;
     limit?: number;
+    appId?: string;
   },
   pollInterval?: number
 ) {

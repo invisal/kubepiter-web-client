@@ -13,6 +13,11 @@ const QUERY_APP = gql`
         name
         value
       }
+      git {
+        url
+        branch
+        hasAuth
+      }
       lastBuildJob {
         id
         status

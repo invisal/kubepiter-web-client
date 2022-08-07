@@ -36,7 +36,7 @@ export default function AppLayout(
       <div className={styles.tabs}>
         <InnerContent>
           <Tabs selectedIndex={selectIndex}>
-            <TabList activation="manual" contained>
+            <TabList aria-label="App" activation="manual" contained>
               <Tab onClick={() => router.push(`/apps/edit/${props.id}`)}>
                 Application
               </Tab>

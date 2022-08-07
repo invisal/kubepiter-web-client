@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
+import BuildLogList from "../../../../src/components/BuildLogList";
 import { GqlApp } from "../../../../src/generated/graphql";
 import AppLayout from "../../../../src/layout/AppLayout";
 import MasterLayout from "../../../../src/layout/MasterLayout";
 
 function AppBuildLogBody({ data }: { data: GqlApp }) {
-  return <div>Build Log</div>;
+  return <BuildLogList appId={data.id || ""} />;
 }
 
 export default function AppBuildLogPage() {
