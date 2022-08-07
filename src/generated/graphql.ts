@@ -16,8 +16,10 @@ export type GqlApp = {
   __typename?: 'App';
   cluster?: Maybe<Scalars['String']>;
   env?: Maybe<Array<Maybe<GqlAppEnvironmentVariable>>>;
+  git?: Maybe<GqlAppGit>;
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
+  imagePullSecret?: Maybe<Scalars['String']>;
   ingress?: Maybe<Array<Maybe<GqlAppIngress>>>;
   lastBuildJob?: Maybe<GqlBuildJob>;
   name?: Maybe<Scalars['String']>;
@@ -30,13 +32,26 @@ export type GqlApp = {
 
 export type GqlAppEnvironmentVariable = {
   __typename?: 'AppEnvironmentVariable';
-  name?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type GqlAppEnvironmentVariableInput = {
   name: Scalars['String'];
   value: Scalars['String'];
+};
+
+export type GqlAppGit = {
+  __typename?: 'AppGit';
+  branch?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type GqlAppGitInput = {
+  branch?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 export type GqlAppIngress = {
@@ -46,14 +61,16 @@ export type GqlAppIngress = {
 };
 
 export type GqlAppIngressInput = {
-  host?: InputMaybe<Scalars['String']>;
-  path?: InputMaybe<Scalars['String']>;
+  host: Scalars['String'];
+  path: Scalars['String'];
 };
 
 export type GqlAppInput = {
   cluster?: InputMaybe<Scalars['String']>;
   env?: InputMaybe<Array<InputMaybe<GqlAppEnvironmentVariableInput>>>;
+  git?: InputMaybe<GqlAppGitInput>;
   image?: InputMaybe<Scalars['String']>;
+  imagePullSecret?: InputMaybe<Scalars['String']>;
   ingress?: InputMaybe<Array<InputMaybe<GqlAppIngressInput>>>;
   name?: InputMaybe<Scalars['String']>;
   namespace?: InputMaybe<Scalars['String']>;
@@ -67,15 +84,12 @@ export type GqlBuildJob = {
   __typename?: 'BuildJob';
   appId?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Int']>;
+  endAt?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   logs?: Maybe<Scalars['String']>;
+  startAt?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
-};
-
-export type GqlCluster = {
-  __typename?: 'Cluster';
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['String']>;
 };
 
 export type GqlDeployResponse = {
@@ -110,8 +124,9 @@ export type GqlMutationCreateAppArgs = {
 
 
 export type GqlMutationDeployAppArgs = {
+  build?: InputMaybe<Scalars['Boolean']>;
+  deploy?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['ID'];
-  remote?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -131,7 +146,8 @@ export type GqlQuery = {
   __typename?: 'Query';
   app?: Maybe<GqlApp>;
   apps?: Maybe<Array<Maybe<GqlApp>>>;
-  clusters?: Maybe<Array<Maybe<GqlCluster>>>;
+  buildLog?: Maybe<GqlBuildJob>;
+  buildLogs?: Maybe<Array<Maybe<GqlBuildJob>>>;
   me?: Maybe<GqlUser>;
   nodes?: Maybe<Array<Maybe<GqlKubeNode>>>;
   registries?: Maybe<Array<Maybe<GqlRegistry>>>;
@@ -141,6 +157,17 @@ export type GqlQuery = {
 
 export type GqlQueryAppArgs = {
   id: Scalars['ID'];
+};
+
+
+export type GqlQueryBuildLogArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type GqlQueryBuildLogsArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
 };
 
 export type GqlRegistry = {

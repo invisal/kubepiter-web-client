@@ -1,21 +1,19 @@
 import {
-  Loading,
   TextInput,
   FormLabel,
   Button,
   Grid,
   Column,
   ComboBox,
-  Accordion,
 } from "@carbon/react";
 import * as Icons from "@carbon/icons-react";
 import { useRouter } from "next/router";
 import {
   GqlApp,
   GqlAppEnvironmentVariable,
-} from "../../../src/generated/graphql";
-import useApiApp from "../../../src/hooks/useApiApp";
-import MasterLayout from "../../../src/layout/MasterLayout";
+} from "../../../../src/generated/graphql";
+import MasterLayout from "../../../../src/layout/MasterLayout";
+import AppLayout from "../../../../src/layout/AppLayout";
 
 function EnvironmentVariableEditor({
   envs,
@@ -85,8 +83,6 @@ function EnvironmentVariableEditor({
 function AppBody({ data }: { data: GqlApp }) {
   return (
     <div>
-      <h1 style={{ marginBottom: "2rem" }}>{data.name}</h1>
-
       <TextInput
         id="name"
         labelText="Name"
@@ -152,19 +148,10 @@ function AppBody({ data }: { data: GqlApp }) {
 export default function AppEditPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { data } = useApiApp(id as string);
 
   return (
-    <MasterLayout>
-      {data ? (
-        data.app ? (
-          <AppBody data={data.app} />
-        ) : (
-          <div>Application does not exist</div>
-        )
-      ) : (
-        <Loading />
-      )}
+    <MasterLayout withoutInnerContent>
+      <AppLayout id={id as string} bodyComponent={AppBody} />
     </MasterLayout>
   );
 }

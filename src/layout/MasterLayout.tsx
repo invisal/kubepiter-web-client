@@ -18,8 +18,11 @@ import Link from "next/link";
 import LoginLayout from "./LoginLayout";
 import { useUser } from "../providers/UserProvider";
 import TopActionButtons from "../components/TopActionButtons";
+import InnerContent from "../components/InnerContent";
 
-export default function MasterLayout(props: PropsWithChildren<unknown>) {
+export default function MasterLayout(
+  props: PropsWithChildren<{ withoutInnerContent?: boolean }>
+) {
   const router = useRouter();
   const { user } = useUser();
 
@@ -33,7 +36,6 @@ export default function MasterLayout(props: PropsWithChildren<unknown>) {
         render={({ isSideNavExpanded, onClickSideNavExpand }) => (
           <>
             <Header aria-labelledby="Kubepiter">
-              <SkipToContent />
               <HeaderMenuButton
                 onClick={onClickSideNavExpand}
                 isActive={isSideNavExpanded}
@@ -44,7 +46,11 @@ export default function MasterLayout(props: PropsWithChildren<unknown>) {
 
               <TopActionButtons />
 
-              <SideNav expanded={isSideNavExpanded} aria-label="">
+              <SideNav
+                expanded={isSideNavExpanded}
+                aria-label=""
+                style={{ borderRight: "1px solid #eee" }}
+              >
                 <SideNavItems>
                   <Link href="/" passHref>
                     <SideNavLink
@@ -124,16 +130,11 @@ export default function MasterLayout(props: PropsWithChildren<unknown>) {
               </SideNav>
             </Header>
             <Content>
-              <Grid>
-                <Column
-                  sm={{ offset: 0, span: 4 }}
-                  md={{ offset: 0, span: 8 }}
-                  lg={{ offset: 4, span: 12 }}
-                  xlg={{ offset: 3, span: 13 }}
-                >
-                  {props.children}
-                </Column>
-              </Grid>
+              {props.withoutInnerContent ? (
+                props.children
+              ) : (
+                <InnerContent>{props.children}</InnerContent>
+              )}
             </Content>
           </>
         )}
