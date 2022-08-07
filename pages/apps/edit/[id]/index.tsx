@@ -9,7 +9,7 @@ import { useState } from "react";
 import useApiUpdateApp from "../../../../src/hooks/useApiUpdateApp";
 
 function AppBody({ data }: { data: GqlApp }) {
-  const [update, { loading }] = useApiUpdateApp();
+  const [update, { loading }] = useApiUpdateApp({ refetchQueries: ["app"] });
   const [imagePullSecret, setImagePullScret] = useState(
     data.imagePullSecret || ""
   );

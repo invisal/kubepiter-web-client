@@ -5,6 +5,7 @@ import useApiBuildLog from "../../../src/hooks/useApiBuildLog";
 import MasterLayout from "../../../src/layout/MasterLayout";
 import ReactAnsi from "react-ansi";
 import Card from "../../../src/components/Card";
+import { useEffect } from "react";
 
 function BuildLogBody({ data }: { data: GqlBuildJob }) {
   return (
@@ -40,7 +41,15 @@ function BuildLogBody({ data }: { data: GqlBuildJob }) {
 export default function AppEditPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { data } = useApiBuildLog(id as string);
+  const { data, startPolling, stopPolling } = useApiBuildLog(id as string);
+  const status = data?.buildLog?.status;
+
+  useEffect(() => {
+    if (status !== "SUCCESS" && status !== "FAILED") {
+      startPolling(2000);
+      return () => stopPolling();
+    }
+  }, [status, startPolling, stopPolling]);
 
   return (
     <MasterLayout>

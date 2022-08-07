@@ -13,6 +13,7 @@ import { GqlApp } from "../../generated/graphql";
 import useApiApp from "../../hooks/useApiApp";
 import { useRouter } from "next/router";
 import * as Icons from "@carbon/icons-react";
+import useApiDeployApp from "../../hooks/useApiDeployApp";
 
 export default function AppLayout(
   props: PropsWithChildren<{
@@ -21,6 +22,11 @@ export default function AppLayout(
   }>
 ) {
   const router = useRouter();
+  const [deployApp, { loading: deployAppLoading }] = useApiDeployApp({
+    onCompleted: () => {
+      router.push(`/apps/edit/${props.id}/builds`);
+    },
+  });
   const { data } = useApiApp(props.id);
 
   if (!data) return <Loading />;
@@ -34,8 +40,20 @@ export default function AppLayout(
   if (pathLastToken === "env") selectIndex = 2;
   if (pathLastToken === "builds") selectIndex = 3;
 
+  const onRebuildClicked = () => {
+    deployApp({
+      variables: {
+        id: props.id,
+      },
+    })
+      .then()
+      .catch();
+  };
+
   return (
     <div>
+      {deployAppLoading && <Loading />}
+
       <div className={styles.banner}>
         <InnerContent>
           <h1>{data.app.name}</h1>
@@ -81,7 +99,10 @@ export default function AppLayout(
                 iconDescription="More"
                 light
               >
-                <OverflowMenuItem itemText="Rebuild" />
+                <OverflowMenuItem
+                  onClick={onRebuildClicked}
+                  itemText="Rebuild"
+                />
                 <OverflowMenuItem itemText="Kubernetes YAML" />
                 <OverflowMenuItem hasDivider isDelete itemText="Delete app" />
               </OverflowMenu>

@@ -62,7 +62,7 @@ export default function BuildLogList({ appId }: { appId?: string }) {
                   status={
                     ({
                       SUCCESS: "finished",
-                      FAIL: "error",
+                      FAILED: "error",
                       PENDING: "inactive",
                       RUNNING: "active",
                     }[item?.status || ""] || "active") as InlineLoadingStatus
