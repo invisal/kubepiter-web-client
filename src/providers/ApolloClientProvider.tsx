@@ -1,13 +1,10 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import getConfig from "next/config";
 import { PropsWithChildren, useMemo } from "react";
 import { useSessionToken } from "./SessionTokenProvider";
 
 function createApolloClient(token: string | null) {
-  const { publicRuntimeConfig } = getConfig();
-
   const client = new ApolloClient({
-    uri: `${publicRuntimeConfig?.endpoint}/graphql`,
+    uri: `${(window as any).envs.endpoint}/graphql`,
     cache: new InMemoryCache(),
     headers: token
       ? {
