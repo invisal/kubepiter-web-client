@@ -19,6 +19,7 @@ export type GqlApp = {
   env?: Maybe<Array<Maybe<GqlAppEnvironmentVariable>>>;
   folderName?: Maybe<Scalars['String']>;
   git?: Maybe<GqlAppGit>;
+  gitWebhook?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   imagePullSecret?: Maybe<Scalars['String']>;
@@ -109,6 +110,9 @@ export type GqlDeployResponse = {
 
 export type GqlKubeNode = {
   __typename?: 'KubeNode';
+  cpuUsage?: Maybe<GqlResourceUsage>;
+  labels?: Maybe<Scalars['JSON']>;
+  memoryUsage?: Maybe<GqlResourceUsage>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -194,6 +198,15 @@ export type GqlRegistry = {
   auth?: Maybe<Scalars['String']>;
   managed?: Maybe<Scalars['Boolean']>;
   name: Scalars['ID'];
+};
+
+export type GqlResourceUsage = {
+  __typename?: 'ResourceUsage';
+  allocatable?: Maybe<Scalars['Float']>;
+  capacity?: Maybe<Scalars['Float']>;
+  limit?: Maybe<Scalars['Float']>;
+  request?: Maybe<Scalars['Float']>;
+  usage?: Maybe<Scalars['Float']>;
 };
 
 export type GqlUser = {

@@ -1,6 +1,15 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 
 export default function ForceClientSide(props: PropsWithChildren<unknown>) {
-  if (typeof window === "undefined") return <div />;
-  return <>{props.children}</>;
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(typeof window !== "undefined");
+  }, []);
+
+  if (isClient) {
+    return <div>{props.children}</div>;
+  }
+
+  return <div />;
 }
