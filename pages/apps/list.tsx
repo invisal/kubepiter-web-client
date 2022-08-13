@@ -7,6 +7,7 @@ import {
   TableCell,
   Link as CarbonLink,
   TableContainer,
+  Button,
 } from "@carbon/react";
 import * as Icons from "@carbon/icons-react";
 import { Maybe } from "graphql/jsutils/Maybe";
@@ -75,6 +76,10 @@ const Home: NextPage = () => {
   return (
     <MasterLayout>
       <h1 style={{ marginBottom: "2rem" }}>Applications</h1>
+
+      <div style={{ marginBottom: "1rem", marginTop: "1rem" }}>
+        <Button href="/apps/create">Add</Button>
+      </div>
 
       {data?.apps ? <>{renderAppGroup(data.apps || [])}</> : <div></div>}
     </MasterLayout>

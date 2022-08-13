@@ -8,6 +8,8 @@
 @use "@carbon/react/scss/theme";
 @use "@carbon/react/scss/components";
 
+@use "utils";
+
 body {
   overflow-x: hidden
 }

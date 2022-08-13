@@ -71,6 +71,7 @@ export default function AppLayout(
       <div className={styles.banner}>
         <InnerContent>
           <h1>{data.app.name}</h1>
+          <span>{data.app.id}</span>
         </InnerContent>
       </div>
       <div className={styles.tabs}>
