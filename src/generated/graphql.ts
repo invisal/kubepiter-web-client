@@ -102,6 +102,12 @@ export type GqlBuildJob = {
   version?: Maybe<Scalars['String']>;
 };
 
+export type GqlCreateUserResponse = {
+  __typename?: 'CreateUserResponse';
+  id?: Maybe<Scalars['ID']>;
+  password?: Maybe<Scalars['String']>;
+};
+
 export type GqlDeployResponse = {
   __typename?: 'DeployResponse';
   message?: Maybe<Scalars['String']>;
@@ -124,15 +130,29 @@ export type GqlLoginResponse = {
 export type GqlMutation = {
   __typename?: 'Mutation';
   createApp?: Maybe<Scalars['String']>;
+  createUser?: Maybe<GqlCreateUserResponse>;
+  deleteUser?: Maybe<Scalars['Boolean']>;
   deployApp?: Maybe<GqlDeployResponse>;
   login?: Maybe<GqlLoginResponse>;
+  regenerateAppWebhook?: Maybe<Scalars['String']>;
   updateApp?: Maybe<Scalars['Boolean']>;
+  updateUser?: Maybe<Scalars['Boolean']>;
 };
 
 
 export type GqlMutationCreateAppArgs = {
   id: Scalars['ID'];
   value?: InputMaybe<GqlAppInput>;
+};
+
+
+export type GqlMutationCreateUserArgs = {
+  value: GqlUserInput;
+};
+
+
+export type GqlMutationDeleteUserArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -150,9 +170,20 @@ export type GqlMutationLoginArgs = {
 };
 
 
+export type GqlMutationRegenerateAppWebhookArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type GqlMutationUpdateAppArgs = {
   id: Scalars['ID'];
   value?: InputMaybe<GqlAppInput>;
+};
+
+
+export type GqlMutationUpdateUserArgs = {
+  id: Scalars['ID'];
+  value: GqlUserInput;
 };
 
 export type GqlNodeGroup = {
@@ -161,6 +192,14 @@ export type GqlNodeGroup = {
   name?: Maybe<Scalars['String']>;
   selector?: Maybe<Scalars['JSON']>;
   tag: Scalars['ID'];
+};
+
+export type GqlPod = {
+  __typename?: 'Pod';
+  name?: Maybe<Scalars['String']>;
+  podScheduledTime?: Maybe<Scalars['String']>;
+  raw?: Maybe<Scalars['JSON']>;
+  status?: Maybe<Scalars['String']>;
 };
 
 export type GqlQuery = {
@@ -172,7 +211,12 @@ export type GqlQuery = {
   me?: Maybe<GqlUser>;
   nodeGroups?: Maybe<Array<Maybe<GqlNodeGroup>>>;
   nodes?: Maybe<Array<Maybe<GqlKubeNode>>>;
+  pod?: Maybe<GqlPod>;
+  podLog?: Maybe<Scalars['String']>;
+  pods?: Maybe<Array<Maybe<GqlPod>>>;
   registries?: Maybe<Array<Maybe<GqlRegistry>>>;
+  user?: Maybe<GqlUser>;
+  users?: Maybe<Array<Maybe<GqlUser>>>;
   version?: Maybe<Scalars['String']>;
 };
 
@@ -191,6 +235,26 @@ export type GqlQueryBuildLogsArgs = {
   appId?: InputMaybe<Scalars['String']>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type GqlQueryPodArgs = {
+  name: Scalars['String'];
+};
+
+
+export type GqlQueryPodLogArgs = {
+  name: Scalars['String'];
+};
+
+
+export type GqlQueryPodsArgs = {
+  appId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type GqlQueryUserArgs = {
+  id: Scalars['ID'];
 };
 
 export type GqlRegistry = {
@@ -212,5 +276,10 @@ export type GqlResourceUsage = {
 export type GqlUser = {
   __typename?: 'User';
   id?: Maybe<Scalars['ID']>;
+  role?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
+};
+
+export type GqlUserInput = {
+  username?: InputMaybe<Scalars['String']>;
 };

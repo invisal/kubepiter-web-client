@@ -2,8 +2,8 @@ import { gql, MutationHookOptions, useMutation } from "@apollo/client";
 import { GqlMutation } from "../generated/graphql";
 
 const MUTATION_DEPLOY_APP = gql`
-  mutation deployApp($id: ID!) {
-    deployApp(id: $id, build: true, deploy: true) {
+  mutation deployApp($id: ID!, $build: Boolean, $deploy: Boolean) {
+    deployApp(id: $id, build: $build, deploy: $deploy) {
       message
     }
   }
@@ -11,6 +11,8 @@ const MUTATION_DEPLOY_APP = gql`
 
 interface DeployApiVariable {
   id: string;
+  build: boolean;
+  deploy: boolean;
 }
 
 export default function useApiDeployApp(

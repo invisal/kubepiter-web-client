@@ -12,6 +12,7 @@ const QUERY_APP = gql`
       imagePullSecret
       folderName
       nodeGroup
+      gitWebhook
       ingress {
         host
         path

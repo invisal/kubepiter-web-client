@@ -1,4 +1,13 @@
-import { TextInput, Button, Grid, Column, Loading } from "@carbon/react";
+import {
+  TextInput,
+  Button,
+  Grid,
+  Column,
+  Loading,
+  CopyButton,
+  FlexGrid,
+  Row,
+} from "@carbon/react";
 import { useRouter } from "next/router";
 import { GqlApp } from "../../../../src/generated/graphql";
 import MasterLayout from "../../../../src/layout/MasterLayout";
@@ -8,6 +17,7 @@ import RegistryListCombo from "../../../../src/components/RegistryListCombo";
 import { useState } from "react";
 import useApiUpdateApp from "../../../../src/hooks/useApiUpdateApp";
 import NodeGroupListCombo from "../../../../src/components/NodeGroupListCombo";
+import WebhookTextbook from "../../../../src/components/WebhookTextbox";
 
 function AppBody({ data }: { data: GqlApp }) {
   const [update, { loading }] = useApiUpdateApp({ refetchQueries: ["app"] });
@@ -89,6 +99,10 @@ function AppBody({ data }: { data: GqlApp }) {
       </Grid>
 
       <LinkGitRepoEditor id={data.id || ""} git={data.git} />
+
+      <h4 style={{ marginTop: "2rem", marginBottom: "2rem" }}>Webhook</h4>
+
+      <WebhookTextbook app={data} />
 
       <div style={{ marginTop: "2rem" }}>
         <Button onClick={onSaveClicked}>Save</Button>

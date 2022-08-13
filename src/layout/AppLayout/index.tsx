@@ -22,11 +22,7 @@ export default function AppLayout(
   }>
 ) {
   const router = useRouter();
-  const [deployApp, { loading: deployAppLoading }] = useApiDeployApp({
-    onCompleted: () => {
-      router.push(`/apps/edit/${props.id}/builds`);
-    },
-  });
+  const [deployApp, { loading: deployAppLoading }] = useApiDeployApp();
   const { data } = useApiApp(props.id);
 
   if (!data) return <Loading />;
@@ -39,11 +35,29 @@ export default function AppLayout(
   if (pathLastToken === "ingress") selectIndex = 1;
   if (pathLastToken === "env") selectIndex = 2;
   if (pathLastToken === "builds") selectIndex = 3;
+  if (pathLastToken === "pods") selectIndex = 4;
 
   const onRebuildClicked = () => {
     deployApp({
       variables: {
         id: props.id,
+        build: true,
+        deploy: true,
+      },
+      onCompleted: () => {
+        router.push(`/apps/edit/${props.id}/builds`);
+      },
+    })
+      .then()
+      .catch();
+  };
+
+  const onDeployClicked = () => {
+    deployApp({
+      variables: {
+        id: props.id,
+        build: false,
+        deploy: true,
       },
     })
       .then()
@@ -88,7 +102,11 @@ export default function AppLayout(
                     >
                       Build Log
                     </Tab>
-                    <Tab>Monitor</Tab>
+                    <Tab
+                      onClick={() => router.push(`/apps/edit/${props.id}/pods`)}
+                    >
+                      Pods
+                    </Tab>
                   </TabList>
                 </Tabs>
               </div>
@@ -101,8 +119,9 @@ export default function AppLayout(
               >
                 <OverflowMenuItem
                   onClick={onRebuildClicked}
-                  itemText="Rebuild"
+                  itemText="Build & Deploy"
                 />
+                <OverflowMenuItem onClick={onDeployClicked} itemText="Deploy" />
                 <OverflowMenuItem itemText="Kubernetes YAML" />
                 <OverflowMenuItem hasDivider isDelete itemText="Delete app" />
               </OverflowMenu>

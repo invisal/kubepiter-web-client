@@ -1,5 +1,6 @@
 import { Column, FormLabel, Grid } from "@carbon/react";
 import type { NextPage } from "next";
+import { cpuUsage } from "process";
 import { Doughnut } from "react-chartjs-2";
 import Card from "../src/components/Card";
 import { GqlKubeNode, Maybe } from "../src/generated/graphql";
@@ -11,20 +12,20 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
     nodes.reduce((a, b) => a + Number(b?.memoryUsage?.capacity), 0) /
     1073741824;
   const memoryTotalRequest =
-    nodes.reduce((a, b) => a + Number(b?.memoryUsage?.request), 0) / 1073741824;
+    nodes.reduce((a, b) => a + Number(b?.memoryUsage?.usage), 0) / 1073741824;
 
   const cpuTotalCapacity = nodes.reduce(
     (a, b) => a + Number(b?.cpuUsage?.capacity),
     0
   );
   const cpuTotalRequest = nodes.reduce(
-    (a, b) => a + Number(b?.cpuUsage?.request),
+    (a, b) => a + Number(b?.cpuUsage?.usage),
     0
   );
 
   return (
-    <Grid>
-      <Column lg={{ span: 8 }}>
+    <Grid narrow>
+      <Column md={{ span: 4 }} lg={{ span: 4 }}>
         <Card>
           <div
             style={{
@@ -39,18 +40,18 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
 
           <div
             style={{
-              width: 300,
-              marginTop: "2rem",
+              width: 150,
+              marginTop: "1rem",
               marginLeft: "auto",
               marginRight: "auto",
             }}
           >
             <Doughnut
               data={{
-                labels: ["Request", "Unused"],
+                labels: ["Usage", "Unused"],
                 datasets: [
                   {
-                    label: "Request",
+                    label: "Usage",
                     data: [
                       memoryTotalRequest,
                       memoryTotalCapacity - memoryTotalRequest,
@@ -60,14 +61,19 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
                 ],
               }}
               options={{
+                plugins: {
+                  legend: { display: false },
+                },
                 responsive: true,
+                cutout: "80%",
+                radius: "100%",
               }}
             />
           </div>
         </Card>
       </Column>
 
-      <Column lg={{ span: 8 }}>
+      <Column md={{ span: 4 }} lg={{ span: 4 }}>
         <Card>
           <div
             style={{
@@ -82,28 +88,30 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
 
           <div
             style={{
-              width: 300,
-              marginTop: "2rem",
+              width: 150,
+              marginTop: "1rem",
               marginLeft: "auto",
               marginRight: "auto",
             }}
           >
             <Doughnut
               data={{
-                labels: ["Request", "Unused"],
+                labels: ["Usage", "Unused"],
                 datasets: [
                   {
-                    label: "Request",
-                    data: [
-                      cpuTotalCapacity,
-                      cpuTotalCapacity - cpuTotalRequest,
-                    ],
+                    label: "Usage",
+                    data: [cpuTotalRequest, cpuTotalCapacity - cpuTotalRequest],
                     backgroundColor: ["#e74c3c", "#bdc3c7"],
                   },
                 ],
               }}
               options={{
+                plugins: {
+                  legend: { display: false },
+                },
                 responsive: true,
+                cutout: "80%",
+                radius: "100%",
               }}
             />
           </div>

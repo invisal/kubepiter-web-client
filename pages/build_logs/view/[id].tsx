@@ -49,7 +49,7 @@ function BuildLogBody({ data }: { data: GqlBuildJob }) {
   );
 }
 
-export default function AppEditPage() {
+export default function BuildLogPage() {
   const router = useRouter();
   const { id } = router.query;
   const { data, startPolling, stopPolling } = useApiBuildLog(id as string);
