@@ -30,9 +30,6 @@ function AppIngressBody({ data }: { data: GqlApp }) {
     let tmp = ingressList.map((ing) => ({ ...ing }));
     tmp[idx][field] = e.currentTarget.value;
 
-    // Clean up empty ingress
-    tmp = tmp.filter((ing) => ing.host || ing.path);
-
     // If there is no empty ingress at the end, append one
     const last = tmp[tmp.length - 1];
     if (last.host || last.path) {

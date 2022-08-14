@@ -6,6 +6,7 @@ const QUERY_APP_LIST = gql`
     apps {
       id
       version
+      currentVersion
       replicas
       name
       folderName

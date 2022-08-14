@@ -5,7 +5,13 @@ import AppLayout from "../../../../src/layout/AppLayout";
 import MasterLayout from "../../../../src/layout/MasterLayout";
 
 function AppBuildLogBody({ data }: { data: GqlApp }) {
-  return <BuildLogList appId={data.id || ""} />;
+  return (
+    <BuildLogList
+      appId={data.id || ""}
+      showAction={true}
+      currentVersion={data.currentVersion || 0}
+    />
+  );
 }
 
 export default function AppBuildLogPage() {

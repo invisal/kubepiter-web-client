@@ -27,6 +27,7 @@ function AppBody({ data }: { data: GqlApp }) {
   const [image, setImage] = useState(data.image || "");
   const [folderName, setFolderName] = useState(data.folderName || "");
   const [nodeGroup, setNodeGroup] = useState(data.nodeGroup || "");
+  const [port, setPort] = useState(data.port || "");
 
   const onSaveClicked = () => {
     update({
@@ -37,6 +38,7 @@ function AppBody({ data }: { data: GqlApp }) {
           imagePullSecret,
           folderName,
           nodeGroup,
+          port: Number(port),
         },
       },
     });
@@ -75,6 +77,31 @@ function AppBody({ data }: { data: GqlApp }) {
 
       <h4>Deployment</h4>
       <br />
+
+      <Grid narrow style={{ padding: 0, marginBottom: "1rem" }}>
+        <Column lg={{ span: 6 }} md={{ span: 8 }}>
+          <RegistryListCombo
+            value={imagePullSecret}
+            onChange={(e) => setImagePullScret(e || "")}
+          />
+        </Column>
+        <Column lg={{ offset: 6, span: 4 }} md={{ offset: 8, span: 8 }}>
+          <TextInput
+            id="port"
+            placeholder="Port"
+            labelText="Port"
+            value={port}
+            onChange={(e) => setPort(e.currentTarget.value)}
+          ></TextInput>
+        </Column>
+        <Column lg={{ offset: 10, span: 6 }} md={{ offset: 8, span: 8 }}>
+          <NodeGroupListCombo
+            value={nodeGroup}
+            onChange={(e) => setNodeGroup(e || "")}
+          />
+        </Column>
+      </Grid>
+
       <TextInput
         id="image_repository"
         labelText="Image Repository"
@@ -82,21 +109,6 @@ function AppBody({ data }: { data: GqlApp }) {
         value={image}
         onChange={(e) => setImage(e.currentTarget.value)}
       />
-
-      <Grid narrow style={{ padding: 0, marginTop: "1rem" }}>
-        <Column lg={{ span: 8 }} md={{ span: 8 }}>
-          <RegistryListCombo
-            value={imagePullSecret}
-            onChange={(e) => setImagePullScret(e || "")}
-          />
-        </Column>
-        <Column lg={{ offset: 8, span: 8 }} md={{ offset: 8, span: 8 }}>
-          <NodeGroupListCombo
-            value={nodeGroup}
-            onChange={(e) => setNodeGroup(e || "")}
-          />
-        </Column>
-      </Grid>
 
       <LinkGitRepoEditor id={data.id || ""} git={data.git} />
 

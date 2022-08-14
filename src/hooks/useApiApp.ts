@@ -6,6 +6,7 @@ const QUERY_APP = gql`
     app(id: $id) {
       id
       version
+      currentVersion
       replicas
       name
       image
@@ -13,6 +14,7 @@ const QUERY_APP = gql`
       folderName
       nodeGroup
       gitWebhook
+      port
       ingress {
         host
         path
