@@ -20,4 +20,10 @@ declare module "@carbon/react" {
 
   interface FlexGridProps {}
   export const FlexGrid: React.FC<FlexGridProps>;
+
+  interface ProgressBarProps {
+    status?: "active" | "finished" | "error";
+    value?: number;
+  }
+  export const ProgressBar: React.FC<ProgressBarProps>;
 }

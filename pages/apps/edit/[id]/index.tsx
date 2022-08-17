@@ -7,6 +7,7 @@ import {
   CopyButton,
   FlexGrid,
   Row,
+  NumberInput,
 } from "@carbon/react";
 import { useRouter } from "next/router";
 import { GqlApp } from "../../../../src/generated/graphql";
@@ -111,6 +112,26 @@ function AppBody({ data }: { data: GqlApp }) {
       />
 
       <LinkGitRepoEditor id={data.id || ""} git={data.git} />
+
+      <h4 className="mt-4 mb-4">Scaling</h4>
+
+      <Grid narrow style={{ padding: 0 }}>
+        <Column lg={{ offset: 0, span: 3 }}>
+          <NumberInput id="replicas" label="Relicas" value={1} />
+        </Column>
+        <Column lg={{ span: 2 }}>
+          <TextInput id="memory_request" labelText="Memory Request (Mib)" />
+        </Column>
+        <Column lg={{ span: 2 }}>
+          <TextInput id="memory_limit" labelText="Memory Limit (Mib)" />
+        </Column>
+        <Column lg={{ span: 2 }}>
+          <TextInput id="cpu_request" labelText="CPU Request (vCPU)" />
+        </Column>
+        <Column lg={{ span: 2 }}>
+          <TextInput id="cpu_limit" labelText="CPU Limit (vCPU)" />
+        </Column>
+      </Grid>
 
       <h4 style={{ marginTop: "2rem", marginBottom: "2rem" }}>Webhook</h4>
 

@@ -5,10 +5,14 @@ import { SessionTokenProvider } from "../src/providers/SessionTokenProvider";
 import { UserProvider } from "../src/providers/UserProvider";
 import "chart.js/auto";
 import "./../styles/globals.scss";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
+      <Head>
+        <title>Kubepiter - Control Panel</title>
+      </Head>
       <ForceClientSide>
         <SessionTokenProvider>
           <ApolloClientProvider>
