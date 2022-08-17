@@ -66,75 +66,84 @@ export default function BuildLogList({
               <TableHeader style={{ width: 30 }}></TableHeader>
             )}
             <TableHeader style={{ width: 30 }}></TableHeader>
-            <TableHeader style={{ width: 350 }}>Build</TableHeader>
+            <TableHeader style={{ width: 185 }}></TableHeader>
+            <TableHeader style={{ width: 100 }}>Build</TableHeader>
             <TableHeader>App</TableHeader>
             <TableHeader style={{ width: 30 }}>Ver</TableHeader>
             {showAction && <TableHeader style={{ width: 30 }}></TableHeader>}
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.buildLogs.map((item) => (
-            <TableRow key={item?.id}>
-              {currentVersion && (
+          {data.buildLogs.map((item) => {
+            const createdAt = new Date((item?.createdAt || 0) * 1000);
+
+            return (
+              <TableRow key={item?.id}>
+                {currentVersion && (
+                  <TableCell>
+                    {currentVersion === Number(item?.version) &&
+                      item?.status === "SUCCESS" && (
+                        <Icons.ArrowRight aria-label="Current Version" />
+                      )}
+                  </TableCell>
+                )}
                 <TableCell>
-                  {currentVersion === Number(item?.version) &&
-                    item?.status === "SUCCESS" && (
-                      <Icons.ArrowRight aria-label="Current Version" />
+                  <InlineLoading
+                    status={
+                      ({
+                        SUCCESS: "finished",
+                        FAILED: "error",
+                        PENDING: "inactive",
+                        RUNNING: "active",
+                      }[item?.status || ""] || "active") as InlineLoadingStatus
+                    }
+                  />
+                </TableCell>
+                <TableCell>
+                  {createdAt.toLocaleDateString()}{" "}
+                  {createdAt.toLocaleTimeString()}
+                </TableCell>
+                <TableCell>
+                  <NextLink href={`/build_logs/view/${item?.id}`}>
+                    <code>{(item?.id || "").split("-")[0]}</code>
+                  </NextLink>
+                </TableCell>
+                <TableCell>
+                  <div>
+                    <strong>{item?.appId}</strong>
+                  </div>
+                </TableCell>
+                <TableCell>{item?.version}</TableCell>
+                {showAction && (
+                  <TableCell>
+                    {item?.status === "SUCCESS" && (
+                      <OverflowMenu
+                        size="lg"
+                        renderIcon={Icons.OverflowMenuHorizontal}
+                        iconDescription="More"
+                        light
+                      >
+                        <OverflowMenuItem
+                          itemText="Rollback"
+                          onClick={() => {
+                            rollback({
+                              variables: {
+                                appId: item.appId || "",
+                                version: Number(item.version),
+                              },
+                              refetchQueries: ["app"],
+                            })
+                              .then()
+                              .catch();
+                          }}
+                        />
+                      </OverflowMenu>
                     )}
-                </TableCell>
-              )}
-              <TableCell>
-                <InlineLoading
-                  status={
-                    ({
-                      SUCCESS: "finished",
-                      FAILED: "error",
-                      PENDING: "inactive",
-                      RUNNING: "active",
-                    }[item?.status || ""] || "active") as InlineLoadingStatus
-                  }
-                />
-              </TableCell>
-              <TableCell>
-                <NextLink href={`/build_logs/view/${item?.id}`}>
-                  <code>{item?.id}</code>
-                </NextLink>
-              </TableCell>
-              <TableCell>
-                <div>
-                  <strong>{item?.appId}</strong>
-                </div>
-              </TableCell>
-              <TableCell>{item?.version}</TableCell>
-              {showAction && (
-                <TableCell>
-                  {item?.status === "SUCCESS" && (
-                    <OverflowMenu
-                      size="lg"
-                      renderIcon={Icons.OverflowMenuHorizontal}
-                      iconDescription="More"
-                      light
-                    >
-                      <OverflowMenuItem
-                        itemText="Rollback"
-                        onClick={() => {
-                          rollback({
-                            variables: {
-                              appId: item.appId || "",
-                              version: Number(item.version),
-                            },
-                            refetchQueries: ["app"],
-                          })
-                            .then()
-                            .catch();
-                        }}
-                      />
-                    </OverflowMenu>
-                  )}
-                </TableCell>
-              )}
-            </TableRow>
-          ))}
+                  </TableCell>
+                )}
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

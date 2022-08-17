@@ -7,6 +7,7 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.resolve(__dirname, "node_modules")],
   },
+  output: "standalone",
 };
 
 module.exports = nextConfig;
