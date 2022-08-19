@@ -56,7 +56,7 @@ export default function TopActionButtons() {
         }}
       >
         <Switcher aria-label="Switcher Container">
-          <SwitcherItem aria-label="Link 1" href="#">
+          <SwitcherItem aria-label="Link 1" href="/users/change_password">
             Change Password
           </SwitcherItem>
           <SwitcherItem aria-label="Link 1" href="#" onClick={onLogoutClicked}>
