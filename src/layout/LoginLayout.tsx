@@ -72,6 +72,11 @@ export default function LoginLayout() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.currentTarget.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onRequestSubmit();
+            }
+          }}
           data-modal-primary-focus
           labelText="Password"
           placeholder="******"

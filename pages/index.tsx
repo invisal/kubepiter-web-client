@@ -13,11 +13,11 @@ import {
   Tag,
 } from "@carbon/react";
 import type { NextPage } from "next";
-import { Doughnut } from "react-chartjs-2";
 import Card from "../src/components/Card";
 import { GqlKubeNode, Maybe } from "../src/generated/graphql";
 import useApiNodeList from "../src/hooks/useApiNodeList";
 import MasterLayout from "../src/layout/MasterLayout";
+import GaugeChart from "react-gauge-chart";
 
 function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
   const memoryTotalCapacity =
@@ -53,35 +53,30 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
 
             <div
               style={{
-                width: 150,
+                width: 200,
                 marginTop: "1rem",
                 marginLeft: "auto",
                 marginRight: "auto",
               }}
             >
-              <Doughnut
-                data={{
-                  labels: ["Usage", "Unused"],
-                  datasets: [
-                    {
-                      label: "Usage",
-                      data: [
-                        memoryTotalRequest,
-                        memoryTotalCapacity - memoryTotalRequest,
-                      ],
-                      backgroundColor: ["#e74c3c", "#bdc3c7"],
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: {
-                    legend: { display: false },
-                  },
-                  responsive: true,
-                  cutout: "80%",
-                  radius: "100%",
-                }}
+              <GaugeChart
+                id="gauge-chart2"
+                nrOfLevels={20}
+                textColor="#000"
+                arcPadding={0.02}
+                needleColor="#0005"
+                colors={["#2ecc71", "#e74c3c"]}
+                marginInPercent={0.0}
+                percent={memoryTotalRequest / memoryTotalCapacity}
               />
+
+              <div
+                className="mt-2"
+                style={{ textAlign: "center", fontSize: 12 }}
+              >
+                {memoryTotalRequest.toFixed(2)}GiB of{" "}
+                <strong>{memoryTotalCapacity.toFixed(2)}GiB</strong>
+              </div>
             </div>
           </Card>
         </Column>
@@ -107,28 +102,15 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
                 marginRight: "auto",
               }}
             >
-              <Doughnut
-                data={{
-                  labels: ["Usage", "Unused"],
-                  datasets: [
-                    {
-                      label: "Usage",
-                      data: [
-                        cpuTotalRequest,
-                        cpuTotalCapacity - cpuTotalRequest,
-                      ],
-                      backgroundColor: ["#e74c3c", "#bdc3c7"],
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: {
-                    legend: { display: false },
-                  },
-                  responsive: true,
-                  cutout: "80%",
-                  radius: "100%",
-                }}
+              <GaugeChart
+                id="gauge-chart2"
+                nrOfLevels={20}
+                textColor="#000"
+                arcPadding={0.02}
+                needleColor="#0005"
+                colors={["#2ecc71", "#e74c3c"]}
+                marginInPercent={0.0}
+                percent={cpuTotalRequest / cpuTotalCapacity}
               />
             </div>
           </Card>

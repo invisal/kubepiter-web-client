@@ -30,6 +30,19 @@ function AppBody({ data }: { data: GqlApp }) {
   const [nodeGroup, setNodeGroup] = useState(data.nodeGroup || "");
   const [port, setPort] = useState(data.port || "");
 
+  // Scaling and limit resource usages
+  const [replicas, setReplicas] = useState((data.replicas || 1).toString());
+  const [memoryLimits, setMemoryLimits] = useState(
+    data.resources?.limits?.memory || ""
+  );
+  const [memoryRequests, setMemoryRequests] = useState(
+    data.resources?.requests?.memory || ""
+  );
+  const [cpuLimits, setCpuLimits] = useState(data.resources?.limits?.cpu || "");
+  const [cpuRequests, setCpuRequests] = useState(
+    data.resources?.requests?.cpu || ""
+  );
+
   const onSaveClicked = () => {
     update({
       variables: {
@@ -40,6 +53,17 @@ function AppBody({ data }: { data: GqlApp }) {
           folderName,
           nodeGroup,
           port: Number(port),
+          replicas: Number(replicas),
+          resources: {
+            limits: {
+              cpu: Number(cpuLimits || 0),
+              memory: Number(memoryLimits || 0),
+            },
+            requests: {
+              cpu: Number(cpuRequests || 0),
+              memory: Number(memoryRequests || 0),
+            },
+          },
         },
       },
     });
@@ -116,20 +140,45 @@ function AppBody({ data }: { data: GqlApp }) {
       <h4 className="mt-4 mb-4">Scaling</h4>
 
       <Grid narrow style={{ padding: 0 }}>
-        <Column lg={{ offset: 0, span: 3 }}>
-          <NumberInput id="replicas" label="Relicas" value={1} />
+        <Column lg={{ offset: 0, span: 2 }}>
+          <TextInput
+            id="replicas"
+            labelText="Replicas"
+            value={replicas}
+            onChange={(e) => setReplicas(e.currentTarget.value)}
+          />
         </Column>
         <Column lg={{ span: 2 }}>
-          <TextInput id="memory_request" labelText="Memory Request (Mib)" />
+          <TextInput
+            id="memory_request"
+            labelText="Memory Request (Mi)"
+            value={memoryRequests}
+            onChange={(e) => setMemoryRequests(e.currentTarget.value)}
+          />
         </Column>
         <Column lg={{ span: 2 }}>
-          <TextInput id="memory_limit" labelText="Memory Limit (Mib)" />
+          <TextInput
+            id="memory_limit"
+            labelText="Memory Limit (Mi)"
+            value={memoryLimits}
+            onChange={(e) => setMemoryLimits(e.currentTarget.value)}
+          />
         </Column>
         <Column lg={{ span: 2 }}>
-          <TextInput id="cpu_request" labelText="CPU Request (vCPU)" />
+          <TextInput
+            id="cpu_request"
+            labelText="CPU Request (vCPU)"
+            value={cpuRequests}
+            onChange={(e) => setCpuRequests(e.currentTarget.value)}
+          />
         </Column>
         <Column lg={{ span: 2 }}>
-          <TextInput id="cpu_limit" labelText="CPU Limit (vCPU)" />
+          <TextInput
+            id="cpu_limit"
+            labelText="CPU Limit (vCPU)"
+            value={cpuLimits}
+            onChange={(e) => setCpuLimits(e.currentTarget.value)}
+          />
         </Column>
       </Grid>
 

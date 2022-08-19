@@ -28,6 +28,16 @@ const QUERY_APP = gql`
         branch
         hasAuth
       }
+      resources {
+        limits {
+          cpu
+          memory
+        }
+        requests {
+          cpu
+          memory
+        }
+      }
       lastBuildJob {
         id
         status
