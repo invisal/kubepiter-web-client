@@ -96,7 +96,7 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
 
             <div
               style={{
-                width: 150,
+                width: 200,
                 marginTop: "1rem",
                 marginLeft: "auto",
                 marginRight: "auto",
@@ -112,6 +112,10 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
                 marginInPercent={0.0}
                 percent={cpuTotalRequest / cpuTotalCapacity}
               />
+            </div>
+            <div className="mt-2" style={{ textAlign: "center", fontSize: 12 }}>
+              {cpuTotalRequest.toFixed(2)} of{" "}
+              <strong>{cpuTotalCapacity.toFixed(2)}</strong>
             </div>
           </Card>
         </Column>

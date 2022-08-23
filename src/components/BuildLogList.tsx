@@ -17,6 +17,42 @@ import * as Icons from "@carbon/icons-react";
 import useApiBuildLogList from "../hooks/useApiBuildLogList";
 import NextLink from "./NextLink";
 import useApiRollbackApp from "src/hooks/useApiRollbackApp";
+import { GqlBuildJob } from "src/generated/graphql";
+import { getHumanReadableDuration } from "src/utils/timehelper";
+import { useEffect, useState } from "react";
+
+function BuildElapsedTime({ data }: { data: GqlBuildJob }) {
+  const startAt = data.startAt || 0;
+  const endAt = data.endAt || Math.floor(Date.now() / 1000);
+  const diffInSecond = endAt - startAt;
+
+  // This is used for re-render
+  const [_, setRefreshCounter] = useState(0);
+
+  // Re-render every second if it is still running
+  useEffect(() => {
+    if (data.status === "RUNNING") {
+      const intervalId = setInterval(() => {
+        setRefreshCounter((prev) => prev + 1);
+      }, 1000);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [data.status, setRefreshCounter]);
+
+  return (
+    <div>
+      <small
+        style={{
+          color: "#555",
+          fontSize: "0.8rem",
+        }}
+      >
+        {getHumanReadableDuration(diffInSecond)}
+      </small>
+    </div>
+  );
+}
 
 function renderLoading() {
   return (
@@ -69,6 +105,7 @@ export default function BuildLogList({
             <TableHeader style={{ width: 185 }}></TableHeader>
             <TableHeader style={{ width: 100 }}>Build</TableHeader>
             <TableHeader>App</TableHeader>
+            <TableHeader style={{ width: 30 }}></TableHeader>
             <TableHeader style={{ width: 30 }}>Ver</TableHeader>
             {showAction && <TableHeader style={{ width: 30 }}></TableHeader>}
           </TableRow>
@@ -76,6 +113,7 @@ export default function BuildLogList({
         <TableBody>
           {data.buildLogs.map((item) => {
             const createdAt = new Date((item?.createdAt || 0) * 1000);
+            if (!item) return <></>;
 
             return (
               <TableRow key={item?.id}>
@@ -113,7 +151,12 @@ export default function BuildLogList({
                     <strong>{item?.appId}</strong>
                   </div>
                 </TableCell>
-                <TableCell>{item?.version}</TableCell>
+                <TableCell style={{ textAlign: "right" }}>
+                  <BuildElapsedTime data={item} />
+                </TableCell>
+                <TableCell>
+                  <strong>v{item?.version}</strong>
+                </TableCell>
                 {showAction && (
                   <TableCell>
                     {item?.status === "SUCCESS" && (

@@ -17,12 +17,14 @@
     "chart.js": "^3.9.1",
     "date-fns": "^2.29.1",
     "graphql": "^16.5.0",
+    "graphql-ws": "^5.10.1",
     "next": "12.2.4",
     "react": "18.2.0",
     "react-ansi": "^3.0.2",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "18.2.0",
-    "react-gauge-chart": "^0.4.0"
+    "react-gauge-chart": "^0.4.0",
+    "subscriptions-transport-ws": "^0.11.0"
   },
   "devDependencies": {
     "@types/carbon-components-react": "^7.55.2",
