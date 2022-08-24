@@ -9,25 +9,47 @@ import {
 } from "@carbon/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
-import { GqlApp } from "../../../../src/generated/graphql";
+import {
+  GqlApp,
+  GqlAppEnvironmentVariable,
+  Maybe,
+} from "../../../../src/generated/graphql";
 import AppLayout from "../../../../src/layout/AppLayout";
 import MasterLayout from "../../../../src/layout/MasterLayout";
 import * as Icons from "@carbon/icons-react";
 import useApiUpdateApp from "../../../../src/hooks/useApiUpdateApp";
+import BulkEnvironmentEditor, {
+  EnvironmentVariableItem,
+} from "src/components/BulkEnvironmentEditor";
+import { useEffect } from "react";
+
+interface EnvironmentVariableItemWithKey extends EnvironmentVariableItem {
+  key: number;
+}
+
+function attachEnvironmentWithKey(
+  envs?: Maybe<GqlAppEnvironmentVariable>[] | null
+): EnvironmentVariableItemWithKey[] {
+  return (envs || []).map((env, idx) => ({
+    key: idx,
+    name: env?.name || "",
+    value: env?.value || "",
+  }));
+}
+
+function hasLastEmptyEnvironment(value: EnvironmentVariableItemWithKey[]) {
+  if (value.length === 0) return false;
+  const last = value[value.length - 1];
+  return !last.name && !last.value;
+}
 
 function AppEnvBody({ data }: { data: GqlApp }) {
   const [update, { loading }] = useApiUpdateApp({
     refetchQueries: ["app"],
   });
 
-  const [envList, setEnvList] = useState([
-    ...(data.env || []).map((env, idx) => ({
-      key: idx,
-      name: env?.name || "",
-      value: env?.value || "",
-    })),
-    { name: "", value: "", key: (data.env || []).length },
-  ]);
+  const [openBulkEditor, setOpenBulkEditor] = useState(false);
+  const [envList, setEnvList] = useState(attachEnvironmentWithKey(data.env));
 
   const onValueChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -37,22 +59,34 @@ function AppEnvBody({ data }: { data: GqlApp }) {
     // Clone the object and make change
     let tmp = envList.map((ing) => ({ ...ing }));
     tmp[idx][field] = e.currentTarget.value;
-
-    // Clean up empty env
-    tmp = tmp.filter((ing) => ing.name || ing.value);
-
-    // If there is no empty env at the end, append one
-    const last = tmp[tmp.length - 1];
-    if (last.name || last.value) {
-      tmp.push({
-        name: "",
-        value: "",
-        key: Math.max(...tmp.map((ing) => ing.key)) + 1,
-      });
-    }
-
     setEnvList(tmp);
   };
+
+  useEffect(() => {
+    if (!hasLastEmptyEnvironment(envList)) {
+      // Make sure there is at least one empty environment
+      // at the end of the list
+      setEnvList([
+        ...envList,
+        {
+          name: "",
+          value: "",
+          key: Math.max(...[...envList.map((x) => x.key), 0]) + 1,
+        },
+      ]);
+    } else {
+      // Make sure there is no empty environment variable
+      // in the middle of the list
+      const listWithoutLastItem = envList.slice(0, -1);
+      const listAfterFilter = listWithoutLastItem.filter(
+        (item) => item.name || item.value
+      );
+
+      if (listWithoutLastItem.length !== listAfterFilter.length) {
+        setEnvList([...listAfterFilter, envList[envList.length - 1]]);
+      }
+    }
+  }, [envList]);
 
   const onSaveClicked = () => {
     // Clean up empty env
@@ -100,7 +134,10 @@ function AppEnvBody({ data }: { data: GqlApp }) {
             itemText="Sort by name"
             onClick={onSortByNameClicked}
           />
-          <OverflowMenuItem itemText="Bulk edit" />
+          <OverflowMenuItem
+            itemText="Bulk edit"
+            onClick={() => setOpenBulkEditor(true)}
+          />
         </OverflowMenu>
       </div>
 
@@ -136,6 +173,21 @@ function AppEnvBody({ data }: { data: GqlApp }) {
           </div>
         );
       })}
+
+      <BulkEnvironmentEditor
+        onClose={() => setOpenBulkEditor(false)}
+        open={openBulkEditor}
+        env={envList}
+        onUpdate={(updatedEnv) => {
+          setEnvList(
+            Object.entries(updatedEnv).map((entry, idx) => ({
+              key: idx,
+              name: entry[0],
+              value: entry[1],
+            }))
+          );
+        }}
+      />
 
       <div>
         <Button renderIcon={Icons.Save} onClick={onSaveClicked}>

@@ -201,7 +201,9 @@ export default function LinkGitRepoEditor({
       >
         <Icons.LogoGithub size={24} style={{ marginRight: "1rem" }} />
         <strong>
-          {value?.url} ({value?.branch})
+          {value?.url
+            ? `${value?.url} (${value?.branch})`
+            : "Please link your source code"}
         </strong>
       </Button>
 
