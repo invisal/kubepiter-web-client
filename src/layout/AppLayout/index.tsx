@@ -2,6 +2,8 @@ import { ComponentType, PropsWithChildren } from "react";
 import styles from "./styles.module.scss";
 import InnerContent from "../../components/InnerContent";
 import {
+  ActionableNotification,
+  Button,
   Loading,
   OverflowMenu,
   OverflowMenuItem,
@@ -14,6 +16,7 @@ import useApiApp from "../../hooks/useApiApp";
 import { useRouter } from "next/router";
 import * as Icons from "@carbon/icons-react";
 import useApiDeployApp from "../../hooks/useApiDeployApp";
+import AppChangeStatus from "./AppChangeStatus";
 
 export default function AppLayout(
   props: PropsWithChildren<{
@@ -131,6 +134,9 @@ export default function AppLayout(
         </InnerContent>
       </div>
       <InnerContent>
+        {data?.app && data?.app.hasChanged && (
+          <AppChangeStatus app={data.app} />
+        )}
         <props.bodyComponent data={data.app} />
       </InnerContent>
     </div>

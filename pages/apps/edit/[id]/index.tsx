@@ -15,6 +15,8 @@ function AppBody({ data }: { data: GqlApp }) {
   const [imagePullSecret, setImagePullScret] = useState(
     data.imagePullSecret || ""
   );
+
+  const [name, setName] = useState(data.name || "");
   const [image, setImage] = useState(data.image || "");
   const [folderName, setFolderName] = useState(data.folderName || "");
   const [nodeGroup, setNodeGroup] = useState(data.nodeGroup || "");
@@ -42,6 +44,7 @@ function AppBody({ data }: { data: GqlApp }) {
           imagePullSecret,
           folderName,
           nodeGroup,
+          name,
           port: Number(port),
           replicas: Number(replicas),
           resources: {
@@ -68,8 +71,8 @@ function AppBody({ data }: { data: GqlApp }) {
           <TextInput
             id="name"
             labelText="Name"
-            readOnly
-            value={data?.name || ""}
+            value={name}
+            onChange={(e) => setName(e.currentTarget.value)}
             autoCorrect="off"
             spellCheck={false}
           />

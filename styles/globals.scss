@@ -4,8 +4,7 @@
 @use "@carbon/react/scss/grid";
 @use "@carbon/react/scss/spacing";
 @use "@carbon/react/scss/layer";
-@use "@carbon/react/scss/themes";
-@use "@carbon/react/scss/theme";
+@use "@carbon/themes";
 @use "@carbon/react/scss/components";
 
 @use "utils";
@@ -54,4 +53,18 @@ body {
 
 .flex-grow {
   flex-grow: 1;
+}
+
+// https://carbondesignsystem.com/guidelines/color/usage/
+// https://github.com/carbon-design-system/carbon/blob/main/packages/themes/docs/sass.md
+.bg-field-01 {
+  background: themes.$field-01;
+}
+
+.bg-support-info {
+  background: themes.$support-info;
+}
+
+.bg-support-warning {
+  background: themes.$support-warning-inverse;
 }

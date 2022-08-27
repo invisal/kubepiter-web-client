@@ -20,3 +20,12 @@
 @include generate(mr, margin-right);
 @include generate(mt, margin-top);
 @include generate(mb, margin-bottom);
+@include generate(p, padding);
+@include generate(pl, padding-left);
+@include generate(pr, padding-right);
+@include generate(pt, padding-top);
+@include generate(pb, padding-bottom);
+
+.text-sm {
+  font-size: 0.8rem;
+}

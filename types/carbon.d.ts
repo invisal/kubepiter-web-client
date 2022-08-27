@@ -26,4 +26,11 @@ declare module "@carbon/react" {
     value?: number;
   }
   export const ProgressBar: React.FC<ProgressBarProps>;
+
+  interface ActionableNotificationProps {
+    title?: string;
+    inline?: boolean;
+    actionButtonLabel?: string;
+  }
+  export const ActionableNotification: React.FC<ActionableNotificationProps>;
 }

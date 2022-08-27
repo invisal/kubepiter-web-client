@@ -6,6 +6,7 @@ const QUERY_APP = gql`
     app(id: $id) {
       id
       version
+      hasChanged
       currentVersion
       replicas
       name
@@ -49,5 +50,6 @@ const QUERY_APP = gql`
 export default function useApiApp(id: string) {
   return useQuery<GqlQuery>(QUERY_APP, {
     variables: { id },
+    fetchPolicy: "network-only",
   });
 }

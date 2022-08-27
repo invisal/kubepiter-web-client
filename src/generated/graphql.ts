@@ -21,6 +21,7 @@ export type GqlApp = {
   folderName?: Maybe<Scalars['String']>;
   git?: Maybe<GqlAppGit>;
   gitWebhook?: Maybe<Scalars['String']>;
+  hasChanged?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   imagePullSecret?: Maybe<Scalars['String']>;
@@ -154,6 +155,7 @@ export type GqlLoginResponse = {
 
 export type GqlMutation = {
   __typename?: 'Mutation';
+  changePassword?: Maybe<Scalars['Boolean']>;
   createApp?: Maybe<Scalars['String']>;
   createRegistry?: Maybe<Scalars['String']>;
   createUser?: Maybe<GqlCreateUserResponse>;
@@ -165,6 +167,12 @@ export type GqlMutation = {
   rollbackApp?: Maybe<Scalars['Boolean']>;
   updateApp?: Maybe<Scalars['Boolean']>;
   updateUser?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type GqlMutationChangePasswordArgs = {
+  newPassword: Scalars['String'];
+  oldPassword: Scalars['String'];
 };
 
 
@@ -322,6 +330,11 @@ export type GqlResourceUsage = {
   limit?: Maybe<Scalars['Float']>;
   request?: Maybe<Scalars['Float']>;
   usage?: Maybe<Scalars['Float']>;
+};
+
+export type GqlSubscription = {
+  __typename?: 'Subscription';
+  buildQueueChanged?: Maybe<Array<Maybe<GqlBuildJob>>>;
 };
 
 export type GqlUser = {
