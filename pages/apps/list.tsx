@@ -56,7 +56,9 @@ function renderAppList(folderName: string | null, apps: Maybe<GqlApp>[]) {
 }
 
 function renderAppGroup(apps: Maybe<GqlApp>[]) {
-  const folderList = Array.from(new Set(apps.map((app) => app?.folderName)));
+  const folderList = Array.from(
+    new Set(apps.map((app) => app?.folderName))
+  ).sort((a, b) => (a || "").localeCompare(b || ""));
 
   return (
     <>
