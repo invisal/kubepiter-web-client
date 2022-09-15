@@ -7,6 +7,8 @@ const QUERY_REGISTRY_LIST = gql`
       name
       auth
       managed
+      totalAppUsed
+      urlPrefix
     }
   }
 `;

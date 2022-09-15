@@ -100,7 +100,14 @@ function AppBody({ data }: { data: GqlApp }) {
         <Column lg={{ span: 6 }} md={{ span: 8 }}>
           <RegistryListCombo
             value={imagePullSecret}
-            onChange={(e) => setImagePullScret(e || "")}
+            onChange={(e) => {
+              if (e) {
+                setImagePullScret(e.name || "");
+                if (e.urlPrefix) {
+                  setImage(`${e.urlPrefix || ""}/${data?.id}`);
+                }
+              }
+            }}
           />
         </Column>
         <Column lg={{ offset: 6, span: 4 }} md={{ offset: 8, span: 8 }}>

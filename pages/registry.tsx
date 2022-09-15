@@ -43,6 +43,7 @@ function RegistryList({ regs }: { regs: Maybe<GqlRegistry>[] }) {
         <TableHead>
           <TableRow>
             <TableHeader>Name</TableHeader>
+            <TableHeader style={{ width: 90 }}>Used</TableHeader>
             <TableHeader style={{ width: 90 }}></TableHeader>
           </TableRow>
         </TableHead>
@@ -61,6 +62,7 @@ function RegistryList({ regs }: { regs: Maybe<GqlRegistry>[] }) {
                   </div>
                   <FormLabel>{reg?.auth}</FormLabel>
                 </TableCell>
+                <TableCell>{reg?.totalAppUsed}</TableCell>
                 <TableCell>
                   <Link renderIcon={Icons.Edit}>Manage</Link>
                 </TableCell>
