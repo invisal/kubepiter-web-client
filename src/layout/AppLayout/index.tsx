@@ -47,9 +47,6 @@ export default function AppLayout(
         build: true,
         deploy: true,
       },
-      onCompleted: () => {
-        router.push(`/apps/edit/${props.id}/builds`);
-      },
     })
       .then()
       .catch();
@@ -134,9 +131,7 @@ export default function AppLayout(
         </InnerContent>
       </div>
       <InnerContent>
-        {data?.app && data?.app.hasChanged && (
-          <AppChangeStatus app={data.app} />
-        )}
+        <AppChangeStatus app={data.app} />
         <props.bodyComponent data={data.app} />
       </InnerContent>
     </div>

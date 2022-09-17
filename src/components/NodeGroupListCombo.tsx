@@ -28,7 +28,7 @@ export default function NodeGroupListCombo({
         }
       }}
       placeholder=""
-      titleText="Node Group"
+      titleText="Node Group (optional)"
     />
   );
 }

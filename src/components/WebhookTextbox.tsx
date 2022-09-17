@@ -56,7 +56,11 @@ export default function WebhookTextbook({ app }: { app: GqlApp }) {
         />
       </div>
       <div>
-        <CopyButton value={app.gitWebhook || ""} />
+        <CopyButton
+          onClick={() => {
+            navigator.clipboard.writeText(app.gitWebhook || "");
+          }}
+        />
       </div>
       <div>
         <Button size="md" onClick={onRegenerateClicked}>

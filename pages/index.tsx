@@ -11,6 +11,8 @@ import {
   TableRow,
   ProgressBar,
   Tag,
+  SkeletonText,
+  SkeletonPlaceholder,
 } from "@carbon/react";
 import type { NextPage } from "next";
 import Card from "../src/components/Card";
@@ -178,11 +180,24 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
   );
 }
 
+function HomeLoading() {
+  return (
+    <div>
+      <SkeletonPlaceholder />
+      <br />
+      <SkeletonText />
+      <SkeletonText />
+      <SkeletonText />
+    </div>
+  );
+}
+
 const Home: NextPage = () => {
-  const { data } = useApiNodeList();
+  const { data, loading } = useApiNodeList();
 
   return (
     <MasterLayout>
+      {loading && <HomeLoading />}
       {data && data.nodes && <Stats nodes={data.nodes} />}
     </MasterLayout>
   );
