@@ -24,6 +24,7 @@ declare module "@carbon/react" {
   interface ProgressBarProps {
     status?: "active" | "finished" | "error";
     value?: number;
+    label?: string;
   }
   export const ProgressBar: React.FC<ProgressBarProps>;
 
