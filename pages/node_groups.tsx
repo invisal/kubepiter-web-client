@@ -23,12 +23,7 @@ function Panel2() {
 const NodeGroupPage: NextPage = () => {
   return (
     <MasterLayout>
-      <Tabs selectedIndex={1}>
-        <TabList activation="manual" contained>
-          <Tab onClick={() => console.log("tab 1 clicked")}>Application</Tab>
-          <Tab onClick={() => console.log("tab 2 clicked")}>Build Log</Tab>
-        </TabList>
-      </Tabs>
+      <div>Coming Soon</div>
     </MasterLayout>
   );
 };

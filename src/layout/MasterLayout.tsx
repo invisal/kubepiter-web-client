@@ -5,10 +5,7 @@ import {
   HeaderName,
   HeaderContainer,
   HeaderMenuButton,
-  SkipToContent,
   Content,
-  Grid,
-  Column,
   SideNavLink,
 } from "@carbon/react";
 import * as Icons from "@carbon/icons-react";

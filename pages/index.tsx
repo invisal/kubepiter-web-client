@@ -142,6 +142,7 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
                   <TableCell>{node?.name}</TableCell>
                   <TableCell style={{ background: "#fff" }}>
                     <ProgressBar
+                      label=""
                       value={
                         (100 * Number(node?.cpuUsage?.usage)) /
                         Number(node?.cpuUsage?.capacity)
@@ -152,6 +153,7 @@ function Stats({ nodes }: { nodes: Maybe<GqlKubeNode>[] }) {
                   </TableCell>
                   <TableCell style={{ background: "#fff" }}>
                     <ProgressBar
+                      label=""
                       value={
                         (100 * Number(node?.memoryUsage?.usage)) /
                         Number(node?.memoryUsage?.capacity)
