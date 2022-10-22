@@ -10,6 +10,10 @@ const QUERY_APP_LIST = gql`
       replicas
       name
       folderName
+      ingress {
+        host
+        path
+      }
       lastBuildJob {
         id
         status

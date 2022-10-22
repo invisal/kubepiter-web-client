@@ -18,40 +18,50 @@ import useApiAppList from "../../src/hooks/useApiAppList";
 import MasterLayout from "../../src/layout/MasterLayout";
 
 function renderAppList(folderName: string | null, apps: Maybe<GqlApp>[]) {
+  const sortedApp = [...apps];
+  sortedApp.sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
+
   return (
-    <TableContainer
-      title={folderName || "Unnamed"}
-      style={{ marginBottom: "1rem" }}
-    >
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeader style={{ width: "1rem" }}></TableHeader>
-            <TableHeader>Name</TableHeader>
-            <TableHeader style={{ width: "3rem" }}>Version</TableHeader>
-            <TableHeader style={{ width: "3rem" }}>Replicas</TableHeader>
-            <TableHeader style={{ width: "8rem" }}>Last Deployed</TableHeader>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {apps.map((app) => (
-            <TableRow key={app?.id}>
-              <TableCell>
-                <Icons.ApplicationVirtual />
-              </TableCell>
-              <TableCell>
-                <Link href={`/apps/edit/${app?.id}`} passHref>
-                  <CarbonLink>{app?.name}</CarbonLink>
-                </Link>
-              </TableCell>
-              <TableCell>{app?.version}</TableCell>
-              <TableCell>{app?.replicas}</TableCell>
-              <TableCell>N/A</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableRow key={`folder_${folderName}`} style={{ height: "auto" }}>
+        <TableCell
+          colSpan={2}
+          style={{
+            background: "#161616",
+            color: "#fff",
+            paddingTop: "0.5rem",
+            paddingBottom: "0.5rem",
+            lineHeight: "1rem",
+          }}
+        >
+          <strong className="text-sm">{folderName}</strong>
+        </TableCell>
+      </TableRow>
+      {sortedApp.map((app) => (
+        <TableRow key={app?.id}>
+          <TableCell>
+            <Icons.ApplicationVirtual />
+          </TableCell>
+          <TableCell>
+            <Link href={`/apps/edit/${app?.id}`} passHref>
+              <CarbonLink>{app?.name}</CarbonLink>
+            </Link>
+            <div>
+              {app?.ingress?.map((ingress, idx) => (
+                <div
+                  key={idx}
+                  className="text-sm"
+                  style={{ display: "inline-block" }}
+                >
+                  {ingress?.host}
+                  {ingress?.path !== "/" ? ingress?.path : ""},&nbsp;
+                </div>
+              ))}
+            </div>
+          </TableCell>
+        </TableRow>
+      ))}
+    </>
   );
 }
 
@@ -61,14 +71,24 @@ function renderAppGroup(apps: Maybe<GqlApp>[]) {
   ).sort((a, b) => (a || "").localeCompare(b || ""));
 
   return (
-    <>
-      {folderList.map((folder) => {
-        const appsInFolder = apps.filter((app) => app?.folderName === folder);
-        return (
-          <div key={folder}>{renderAppList(folder || null, appsInFolder)}</div>
-        );
-      })}
-    </>
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableHeader style={{ width: "1rem" }}></TableHeader>
+            <TableHeader>Name</TableHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {folderList.map((folder) => {
+            const appsInFolder = apps.filter(
+              (app) => app?.folderName === folder
+            );
+            return renderAppList(folder || null, appsInFolder);
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 
