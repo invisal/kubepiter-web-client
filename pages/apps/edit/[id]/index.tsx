@@ -17,6 +17,9 @@ function AppBody({ data }: { data: GqlApp }) {
   );
 
   const [name, setName] = useState(data.name || "");
+  const [dockerfilePath, setDockerfilePath] = useState(
+    data.dockerfilePath || ""
+  );
   const [image, setImage] = useState(data.image || "");
   const [folderName, setFolderName] = useState(data.folderName || "");
   const [nodeGroup, setNodeGroup] = useState(data.nodeGroup || "");
@@ -45,6 +48,7 @@ function AppBody({ data }: { data: GqlApp }) {
           folderName,
           nodeGroup,
           name,
+          dockerfilePath,
           port: Number(port),
           replicas: Number(replicas),
           resources: {
@@ -136,6 +140,14 @@ function AppBody({ data }: { data: GqlApp }) {
       />
 
       <LinkGitRepoEditor id={data.id || ""} git={data.git} />
+      <br />
+      <TextInput
+        id="image_repository"
+        labelText="Dockerfile Path"
+        spellCheck={false}
+        value={dockerfilePath}
+        onChange={(e) => setDockerfilePath(e.currentTarget.value)}
+      />
 
       <h4 className="mt-4 mb-4">Scaling</h4>
 

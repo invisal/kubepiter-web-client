@@ -12,6 +12,7 @@ const QUERY_APP = gql`
       name
       image
       imagePullSecret
+      dockerfilePath
       folderName
       nodeGroup
       gitWebhook
