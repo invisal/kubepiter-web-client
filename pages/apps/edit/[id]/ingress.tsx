@@ -21,6 +21,10 @@ function AppIngressBody({ data }: { data: GqlApp }) {
     { host: "", path: "", key: (data.ingress || []).length },
   ]);
 
+  const [ingressBodySize, setIngressBodySize] = useState(
+    data.ingressBodySize?.toString()
+  );
+
   const onValueChange = (
     e: ChangeEvent<HTMLInputElement>,
     field: "host" | "path",
@@ -57,6 +61,7 @@ function AppIngressBody({ data }: { data: GqlApp }) {
         id: data.id || "",
         value: {
           ingress: tmp,
+          ingressBodySize: ingressBodySize !== "" ? Number(ingressBodySize) : 0,
         },
       },
     })
@@ -114,7 +119,21 @@ function AppIngressBody({ data }: { data: GqlApp }) {
         );
       })}
 
-      <div>
+      <h4 className="mt-4 mb-4">Other Options</h4>
+
+      <Grid style={{ padding: 0, marginBottom: "0.5rem" }} narrow>
+        <Column md={{ span: 6 }} lg={{ span: 10 }}>
+          <TextInput
+            id="host"
+            labelText="Ingress Body Size"
+            helperText="Default is 2mb. 0 means using default value"
+            value={ingressBodySize}
+            onChange={(e) => setIngressBodySize(e.currentTarget.value)}
+          />
+        </Column>
+      </Grid>
+
+      <div className="mt-4">
         <Button renderIcon={Icons.Save} onClick={onSaveClicked}>
           Save
         </Button>

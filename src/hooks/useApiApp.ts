@@ -21,6 +21,7 @@ const QUERY_APP = gql`
         host
         path
       }
+      ingressBodySize
       env {
         name
         value
